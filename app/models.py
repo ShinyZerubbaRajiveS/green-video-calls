@@ -1,13 +1,14 @@
-from app import db
+from app import db  # Adjust the import path based on your project structure
+from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from datetime import datetime
 
 class User(db.Model):
-    __tablename__ = 'users'  # Use 'users' to avoid reserved keyword issues
+    __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    id = Column(Integer, primary_key=True)
+    username = Column(String(80), unique=True, nullable=False)
+    email = Column(String(120), unique=True, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     def to_dict(self):
         """Convert the user object to a dictionary."""
@@ -19,32 +20,40 @@ class User(db.Model):
         }
 
 class VideoCall(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    duration = db.Column(db.Integer, nullable=False)  # Duration in minutes
-    resolution = db.Column(db.String(50), nullable=False)
-    connection_speed = db.Column(db.Integer, nullable=False)  # Speed in Mbps
-    device_specs = db.Column(db.JSON, nullable=False)  # Store device specifications as JSON
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    __tablename__ = 'video_calls'
+    
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    meeting_link = Column(String(255), nullable=False)
+    username = Column(String(100), nullable=False)
+    email = Column(String(100), nullable=False)
+    duration = Column(Integer, nullable=False, default=0)
+    resolution = Column(String(50))
+    connection_speed = Column(String(50))
+    device_specs = Column(String(255))
 
     def to_dict(self):
         """Convert the video call object to a dictionary."""
         return {
             'id': self.id,
             'user_id': self.user_id,
+            'meeting_link': self.meeting_link,
+            'username': self.username,
+            'email': self.email,
             'duration': self.duration,
             'resolution': self.resolution,
             'connection_speed': self.connection_speed,
-            'device_specs': self.device_specs,
-            'created_at': self.created_at.isoformat()  # Convert to ISO format for JSON serialization
+            'device_specs': self.device_specs
         }
 
 class CarbonFootprint(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    call_id = db.Column(db.Integer, db.ForeignKey('video_call.id'), nullable=False)
-    energy_consumption = db.Column(db.Float, nullable=False)  # Energy consumption in kWh
-    carbon_emissions = db.Column(db.Float, nullable=False)  # CO2 emissions in kg
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    __tablename__ = 'carbon_footprints'
+
+    id = Column(Integer, primary_key=True)
+    call_id = Column(Integer, ForeignKey('video_calls.id'), nullable=False)
+    energy_consumption = Column(Float, nullable=False)  # Energy consumption in kWh
+    carbon_emissions = Column(Float, nullable=False)  # CO2 emissions in kg
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     def to_dict(self):
         """Convert the carbon footprint object to a dictionary."""
@@ -57,10 +66,12 @@ class CarbonFootprint(db.Model):
         }
 
 class Recommendation(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    recommendation_text = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    __tablename__ = 'recommendations'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    recommendation_text = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     def to_dict(self):
         """Convert the recommendation object to a dictionary."""

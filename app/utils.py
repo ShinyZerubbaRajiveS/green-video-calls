@@ -225,24 +225,15 @@ def generate_recommendations(user_id, carbon_footprint):
     return recommendations
 
 def get_internet_speed():
-    """
-    Get the current internet speed.
-
-    Returns:
-        dict: A dictionary containing download and upload speeds in Mbps.
-    """
     try:
         st = speedtest.Speedtest()
-        st.get_best_server()  # Optional: Find the best server
         download_speed = st.download() / 1_000_000  # Convert to Mbps
         upload_speed = st.upload() / 1_000_000  # Convert to Mbps
-        return {
-            'download_speed': download_speed,
-            'upload_speed': upload_speed
-        }
+        return {'download_speed': download_speed, 'upload_speed': upload_speed}
     except Exception as e:
-        print("Error getting internet speed:", e)
-        return {'download_speed': 0, 'upload_speed': 0}  # Return default values on error
+        print(f"Error getting internet speed: {e}")
+        return {'download_speed': 0, 'upload_speed': 0}
+
 
 def get_video_resolution():
     """
