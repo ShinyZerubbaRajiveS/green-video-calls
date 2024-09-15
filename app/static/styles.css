@@ -1,29 +1,40 @@
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-image: url('/static/image.jpg'); /* Add background image */
+    background-size: cover;       /* Ensure the image covers the whole page */
+    background-position: center;  /* Center the image */
+    background-repeat: no-repeat; /* Don't repeat the image */
+    background-attachment: fixed; /* Keep the image fixed while scrolling */
     
+    /* Add transparency overlay */
+    background-color: rgba(0, 0, 0, 0.7); /* Black overlay with 60% transparency */
+    
+
     margin: 0;
     padding: 20px;
+    color: #fff; /* Make text white to contrast with background */
 }
 
 h1 {
     text-align: center;
-    color: #333;
+    color: #fff; /* White text for title */
 }
 
 form {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.8); /* White form background with 80% transparency */
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Slightly darker shadow for depth */
 }
 
 label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #333; /* Dark text for form labels */
 }
 
 input[type="text"],
@@ -54,9 +65,10 @@ button:hover {
 #results {
     margin-top: 20px;
     padding: 20px;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.8); /* White background for results with 80% transparency */
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: #333; /* Dark text for results */
 }
 
 #footprint {
@@ -65,8 +77,7 @@ button:hover {
 }
 
 #recommendations {
-    list-style-type: none; /* Remove default list styling */
-    padding: 0; /* Remove default padding */
+    list-style-type: disc; /* Remove default list styling */
+    padding-left: 20px; /* Remove default padding */
 }
-
 

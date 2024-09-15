@@ -18,6 +18,7 @@ class ModelsTestCase(unittest.TestCase):
             db.drop_all()
 
     def test_video_call_model(self):
+        # Create a VideoCall instance
         call = VideoCall(
             user_id=1,
             duration=30,
@@ -28,7 +29,18 @@ class ModelsTestCase(unittest.TestCase):
         db.session.add(call)
         db.session.commit()
 
+        # Check that the VideoCall was added to the database
         self.assertEqual(VideoCall.query.count(), 1)
+
+        # Retrieve the VideoCall from the database
+        retrieved_call = VideoCall.query.first()
+        
+        # Check that the fields are correctly set
+        self.assertEqual(retrieved_call.user_id, 1)
+        self.assertEqual(retrieved_call.duration, 30)
+        self.assertEqual(retrieved_call.resolution, '720p')
+        self.assertEqual(retrieved_call.connection_speed, 100)
+        self.assertEqual(retrieved_call.device_specs, {'cpu': 'Intel', 'ram': '8GB'})
 
 if __name__ == '__main__':
     unittest.main()
