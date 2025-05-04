@@ -14,23 +14,28 @@ import os
 # Add the project directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app import db
+from app import db  # Ensure this import works properly based on your app structure
+
+# Alembic Config object
 config = context.config
 
+# Set up logging
 fileConfig(config.config_file_name)
 
 # Set target metadata to db.Model.metadata
 target_metadata = db.Model.metadata  # Use db.Model.metadata if you have Base defined in your models.py
 
 def run_migrations_offline():
-    url = config.get_main_option("sqlalchemy.url")
+    """Run migrations in 'offline' mode without connecting to the database."""
+    url = config.get_main_option("sqlalchemy.url")  # Read database URL from config
     context.configure(url=url, target_metadata=target_metadata, literal_binds=True, dialect_opts={"paramstyle": "named"})
 
     with context.begin_transaction():
         context.run_migrations()
 
 def run_migrations_online():
-    connectable = create_engine(config.get_main_option("sqlalchemy.url"))
+    """Run migrations in 'online' mode with a live database connection."""
+    connectable = create_engine(config.get_main_option("sqlalchemy.url"))  # Create engine with the database URL
 
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
